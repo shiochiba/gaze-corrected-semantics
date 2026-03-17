@@ -1,0 +1,5 @@
+segmentation-xmls/
+semantic-segmentation/
+*.json
+*.npy
+__pycache__/
