@@ -78,7 +78,14 @@ def fit_kernel_ridge(X_train, X_test, Y_train, Y_test, cv, delays=[1, 2, 3, 4], 
     return pipeline, scores
 
 # %%
-def plot_single_model_flatmap(scores, subject, directory, vmin=0, vmax=0.4):
+# visualize a model's scores
+
+def plot_single_model_flatmap(scores, subject, directory, vmin=None, vmax=None):
+    if vmin is None:
+        vmin = 0
+    if vmax is None:
+        vmax = scores.max()
+        
     mapper_file = os.path.join(directory, "mappers", f"{subject}_mappers.hdf")
     ax = plot_flatmap_from_mapper(scores, mapper_file, vmin=vmin, vmax=vmax)
     plt.show()
