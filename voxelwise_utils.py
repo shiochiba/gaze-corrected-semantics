@@ -12,8 +12,12 @@ from himalaya.backend import set_backend
 from voxelwise_tutorials.delayer import Delayer
 from voxelwise_tutorials.utils import zscore_runs, generate_leave_one_run_out
 from voxelwise_tutorials.io import load_hdf5_array, get_data_home
+from voxelwise_tutorials.viz import plot_flatmap_from_mapper
 
 import matplotlib.pyplot as plt
+
+directory = get_data_home(dataset='shortclips')
+print(directory)
 
 # %%
 def load_fmri_data(directory, subject):
@@ -74,27 +78,10 @@ def fit_kernel_ridge(X_train, X_test, Y_train, Y_test, cv, delays=[1, 2, 3, 4], 
     return pipeline, scores
 
 # %%
-# Plot flatmaps for models side by side
-
-#scores_dict: dict of {model_name: scores_array}, for example scores_dict={"Standard semantics": scores_standard}, "Gaze-corrected semantics": scores_gaze}
-#subject: str, subject ID
-
-from voxelwise_tutorials.viz import plot_flatmap_from_mapper
-
-def plot_model_flatmaps(scores_dict, subject, directory, vmin=0, vmax=0.4):
+def plot_single_model_flatmap(scores, subject, directory, vmin=0, vmax=0.4):
     mapper_file = os.path.join(directory, "mappers", f"{subject}_mappers.hdf")
-    
-    n_models = len(scores_dict)
-    fig, axes = plt.subplots(1, n_models, figsize=(5*n_models, 4))
-    
-    if n_models == 1:
-        axes = [axes]
-    
-    for ax, (model_name, scores) in zip(axes, scores_dict.items()):
-        _ = plot_flatmap_from_mapper(scores, mapper_file, vmin=vmin, vmax=vmax, ax=ax)
-        ax.set_title(model_name)
-    
-    plt.tight_layout()
+    ax = plot_flatmap_from_mapper(scores, mapper_file, vmin=vmin, vmax=vmax)
     plt.show()
+
 
 
