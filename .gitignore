@@ -3,3 +3,4 @@ semantic-segmentation/
 *.json
 *.npy
 __pycache__/
+.DS_Store
