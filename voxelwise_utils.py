@@ -1,6 +1,7 @@
-# %%
 import os
 import numpy as np
+import torch
+
 from scipy.stats import zscore
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
@@ -19,7 +20,6 @@ import matplotlib.pyplot as plt
 directory = get_data_home(dataset='shortclips')
 print(directory)
 
-# %%
 def load_fmri_data(directory, subject):
     file_name = os.path.join(directory, 'responses', f'{subject}_responses.hdf')
 
@@ -40,24 +40,45 @@ def load_fmri_data(directory, subject):
 
     return Y_train, Y_test, run_onsets
 
-# %%
 # Load feature space from hdf5 and convert to float32
-
 def load_feature_space(feature_file):
     X_train = load_hdf5_array(feature_file, key="X_train").astype("float32")
     X_test = load_hdf5_array(feature_file, key="X_test").astype("float32")
     return X_train, X_test
 
-# %%
-# Set backend
+def zscore_features(X_train, X_test):
+    mean = np.mean(X_train, axis=0)
+    std = np.std(X_train, axis=0) + 1e-12 
 
+    X_train_z = (X_train - mean) / std
+    X_test_z = (X_test - mean) / std
+
+    return X_train_z.astype("float32"), X_test_z.astype("float32")
+
+def compute_run_onsets(runlens):
+
+    runlens = np.asarray(runlens)
+    runlens_list = runlens.tolist()
+    runlens_list.insert(0,0)
+    runlens_list.pop(-1)
+    run_onsets = np.cumsum(runlens_list, axis=0)
+    
+    return run_onsets
+
+
+# Set backend
 def set_default_backend():
     return set_backend("torch_cuda", on_error="warn")
 
-# %%
 # Fit a VEM with kernel ridge regression
+def fit_kernel_ridge(
+    X_train, X_test, Y_train, Y_test, cv, 
+    delays=[1, 2, 3, 4], alphas=np.logspace(1, 20, 20),
+    n_targets_batch=500,
+    n_alphas_batch=5,
+    n_targets_batch_refit=100,
+    random_state=0):
 
-def fit_kernel_ridge(X_train, X_test, Y_train, Y_test, cv, delays=[1, 2, 3, 4], alphas=np.logspace(1, 20, 20)):
     scaler = StandardScaler(with_mean=True, with_std=False)
     delayer = Delayer(delays=delays)
 
@@ -65,9 +86,9 @@ def fit_kernel_ridge(X_train, X_test, Y_train, Y_test, cv, delays=[1, 2, 3, 4], 
         alphas=alphas,
         cv=cv,
         solver_params=dict(
-            n_targets_batch=500,
-            n_alphas_batch=5, 
-            n_targets_batch_refit=100
+            n_targets_batch=n_targets_batch,
+            n_alphas_batch=n_alphas_batch, 
+            n_targets_batch_refit=n_targets_batch_refit
         )
     )
 
@@ -77,7 +98,19 @@ def fit_kernel_ridge(X_train, X_test, Y_train, Y_test, cv, delays=[1, 2, 3, 4], 
     scores = pipeline.score(X_test, Y_test)
     return pipeline, scores
 
-# %%
+def clean_scores(scores):
+    
+    # convert torch to numpy
+    if isinstance(scores, torch.Tensor):
+        scores = scores.cpu().numpy().astype(np.float32)
+
+    # Flatten if needed (e.g., shape (1, voxels))
+    if scores.ndim > 1:
+        scores = scores.flatten()
+
+    return scores
+
+
 # visualize a model's scores
 
 def plot_single_model_flatmap(scores, subject, directory, vmin=None, vmax=None):
@@ -85,10 +118,7 @@ def plot_single_model_flatmap(scores, subject, directory, vmin=None, vmax=None):
         vmin = 0
     if vmax is None:
         vmax = scores.max()
-        
+
     mapper_file = os.path.join(directory, "mappers", f"{subject}_mappers.hdf")
     ax = plot_flatmap_from_mapper(scores, mapper_file, vmin=vmin, vmax=vmax)
     plt.show()
-
-
-
