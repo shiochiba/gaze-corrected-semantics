@@ -1,6 +1,9 @@
 segmentation-xmls/
 semantic-segmentation/
+jen_reference/data/eyetracking-overlays/
+jen_reference/data/features/
 *.json
 *.npy
 __pycache__/
 .DS_Store
+.venv

@@ -19,7 +19,7 @@ import pandas as pd
 
 import sys
 sys.path.append('/hehe/projects/gaze-corrected-semantics/jen_reference')
-from jen_reference.helper import *
+from jen_reference.eyetracking_helper import *
 
 DEFAULT_MOVIES = [f"test2_run-{i:02d}" for i in range(1, 7)] + [f"train{i:02d}" for i in range(1, 11)]
 CONDITION_SUFFIX_RE = re.compile(r"(impmatch|match|ecprod|rest)$")
