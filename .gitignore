@@ -4,6 +4,7 @@ jen_reference/data/eyetracking-overlays/
 jen_reference/data/features/
 *.json
 *.npy
+*.npz
 __pycache__/
 .DS_Store
 .venv
