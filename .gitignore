@@ -2,6 +2,7 @@ segmentation-xmls/
 semantic-segmentation/
 jen_reference/data/eyetracking-overlays/
 jen_reference/data/features/
+jen_reference/figures/
 *.json
 *.npy
 *.npz
