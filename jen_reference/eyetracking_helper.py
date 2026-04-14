@@ -255,7 +255,10 @@ def plot_scatter_xy(
 	plot_df = df.iloc[start:]
 
 	plt.figure(figsize=(6, 6))
-	plt.scatter(plot_df["x"], plot_df["y"], alpha=alpha, s=s)
+	# make rainbow_r colormap for scatter points, with alpha based on order in timeseries
+	c = np.linspace(0, 1, len(plot_df))
+	colors = plt.cm.rainbow(c)
+	plt.scatter(plot_df["x"], plot_df["y"], alpha=alpha, s=s, color=colors)
 	plt.scatter([256], [256], marker="x", s=80)
 	plt.xlim(0, 512)
 	plt.ylim(512, 0)
