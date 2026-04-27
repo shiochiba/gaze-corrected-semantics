@@ -5,8 +5,8 @@ This repository implements voxelwise encoding models for naturalistic movie-watc
 To evaluate whether incorporating eye-tracking information into visual-semantic feature spaces improves prediction of cortical activity in voxelwise encoding models.
 
 ## Key Idea
-Standard voxelwise encoding models assume that all subjects attend to the same salient objects in a scene.
-This project introduces a gaze-corrected feature space, where object features are weighted based on individual fixation patterns, providing a subject-specific representation of visual input.
+Standard voxelwise encoding models assume uniform attention to salient objects across subjects.
+This project introduces a gaze-corrected feature space in which object features are weighted by individual fixation patterns.
 
 ## Repository Structure
 - `notebooks/` — analysis pipelines and model comparisons  
@@ -14,17 +14,15 @@ This project introduces a gaze-corrected feature space, where object features ar
 - `data/` — object label mappings used for feature space construction  
 
 ## Methods Overview
-1. Manual object annotations were extracted from movie frames  
+1. All objects were manually labeled in every 3rd frame of the movie stimuli   
 2. Standard one-hot visual-semantic feature space was constructed  
 3. Eye-tracking data was used to weight features corresponding to fixated objects  
 4. Voxelwise encoding models were trained using kernel ridge regression  
 5. Models were evaluated using cross-validated R²
 
-## Results Summary
-- Both models produce structured cortical prediction maps  
-- Gaze-corrected features improve prediction in select cortical regions  
-- Improvements are stronger in subjects with variable fixation behavior  
-- Minimal differences are observed in subjects with consistent fixation patterns  
+## Results Summary  
+- Gaze-corrected features improve prediction in select cortical regions, strongest in the subject with variable fixation  
+- Minimal differences are observed in the subject with consistent fixation patterns    
 
 ## Notes
 Completed in the Gallant Lab at UC Berkeley as part of undergraduate research in computational neuroscience under PhD-level supervision.
