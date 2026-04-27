@@ -3,4 +3,4 @@
 
 PROJECT_DIR = ""
 VOXELWISE_DATA_DIR = ""
-BOLD_DIR = ""  # only available on lab machine, leave empty on local
+DATA_FROM_JEN = ""  # only available on lab machine, leave empty on local
