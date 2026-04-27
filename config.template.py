@@ -2,4 +2,3 @@
 # Do not put real paths in this file
 
 DATA_DIR = ""
-JENS_REPO_PATH = ""
