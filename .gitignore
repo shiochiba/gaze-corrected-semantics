@@ -1,8 +1,10 @@
+
 segmentation-xmls/
 semantic-segmentation/
 *.json
 *.npy
 __pycache__/
-.DS_Storeposter/
+.DS_Store
+poster/
 shios_segmentations/
 jen_reference/
