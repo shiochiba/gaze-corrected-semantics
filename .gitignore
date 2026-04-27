@@ -3,4 +3,6 @@ semantic-segmentation/
 *.json
 *.npy
 __pycache__/
-.DS_Store
+.DS_Storeposter/
+shios_segmentations/
+jen_reference/
