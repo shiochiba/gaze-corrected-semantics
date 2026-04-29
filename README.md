@@ -10,8 +10,15 @@ This project introduces a gaze-corrected feature space in which object features 
 
 ## Repository Structure
 - `notebooks/` — analysis pipelines and model comparisons  
-- `src/` — utility functions for feature construction and encoding models  
-- `data/` — object label mappings used for feature space construction  
+- `src/` — utility functions for encoding models, code sourced from voxelwise encoding model tutorials 
+- `data/` — object label mappings used for feature space construction
+
+## Notebooks
+- `00_voxelwise-tutorial.ipynb` — initial tutorial notebook testing functions from `voxelwise_utils.py` on the shortclips dataset
+- `01_label-dictionary.ipynb` — builds the label map used to normalize raw annotation labels
+- `02_encoding-model.ipynb` — my initial attempt at fitting kernel ridge regression encoding models using standard and gaze-corrected feature spaces
+- `03_jens-feature-space-annotated.ipynb` — annotated version of Jen's feature space construction notebook, documenting the full pipeline for building visual segmentation and gaze-corrected feature matrices
+- `04_jens-encoding-model-annotated.ipynb` — annotated version of Jen's encoding model notebook comparing standard, fixation-only, and gaze-corrected models; annotated to understand a more complete modeling pipeline
 
 ## Methods Overview
 1. All objects were manually labeled in every 3rd frame of the movie stimuli   
