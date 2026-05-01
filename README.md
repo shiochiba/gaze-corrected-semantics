@@ -23,12 +23,12 @@ This project introduces a gaze-corrected feature space in which object features 
 ## Methods Overview
 1. All objects were manually labeled in every 3rd frame of the movie stimuli   
 2. Standard one-hot visual-semantic feature space was constructed  
-3. Eye-tracking data was used to weight features corresponding to fixated objects  
+3. Gaze-corrected feature space was constructed using eye-tracking data to weight features corresponding to fixated objects  
 4. Voxelwise encoding models were trained using kernel ridge regression  
 5. Models were evaluated using cross-validated R²
 
 ## Results Summary  
-- Gaze-corrected features improve prediction in select cortical regions, strongest in the subject with variable fixation  
+- Gaze-corrected features may improve prediction in select cortical regions, strongest in the subject with variable fixation  
 - Minimal differences are observed in the subject with consistent fixation patterns    
 
 ## Notes
